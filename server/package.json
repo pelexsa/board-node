@@ -1,0 +1,28 @@
+{
+  "name": "board-node",
+  "version": "1.0.0",
+  "description": "study",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src",
+    "start:dev": "nodemon --watch src/ src/server.js"
+  },
+  "author": "test",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-mysql-session": "^3.0.0",
+    "express-session": "^1.17.3",
+    "koa": "^2.14.2",
+    "koa-router": "^12.0.1",
+    "mysql2": "^3.6.5",
+    "nodemon": "^3.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2"
+  }
+}
