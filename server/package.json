@@ -4,8 +4,8 @@
   "description": "study",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src",
-    "start:dev": "nodemon --watch src/ src/server.js"
+    "start": "cross-env NODE_PATH=src node src",
+    "start:dev": "cross-env NODE_PATH=src nodemon --watch src/ src/server.js"
   },
   "author": "test",
   "license": "ISC",
@@ -13,12 +13,15 @@
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-mysql-session": "^3.0.0",
     "express-session": "^1.17.3",
     "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.1",
     "koa-router": "^12.0.1",
+    "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "mysql2": "^3.6.5",
     "nodemon": "^3.0.2"
