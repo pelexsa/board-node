@@ -1,4 +1,6 @@
 const Book = require('models/book');
+const Joi = require('joi');
+const {Types: {ObjectId}} = require('mongoose');
 
 exports.list = async (ctx) => {
     let books;
@@ -23,6 +25,10 @@ exports.get = async (ctx) => {
     try {
         book = await Book.findById(id).exec();
     } catch(e) {
+        if (e.name === 'CastError') {
+            ctx.status = 400;
+            return;
+        }
         return ctx.throw(500, e);
     }
 
@@ -62,11 +68,48 @@ exports.create = async (ctx) => {
     ctx.body = book;
 };
 
-exports.delete = (ctx) => {
-    ctx.body = 'deleted';
+exports.delete = async (ctx) => {
+    const { id } = ctx.params;
+
+    try {
+        await Book.findByIdAndDelete(id).exec();
+    } catch(e) {
+        if (e.name === 'CastError') {
+            ctx.state = 400;
+            return;
+        }
+    }
+
+    ctx.status = 204;
 }
 
-exports.replace = (ctx) => {
+exports.replace = async (ctx) => {
+    const { id } = ctx.params;
+
+    if (!ObjectId.isValid(id)) {
+        ctx.status = 400;
+        return;
+    }
+
+    const schema = Joi.object().keys({
+        title: Joi.string().required(),
+        authors: Joi.array().items(Joi.object().keys({
+            name: Joi.string().required(),
+            email: Joi.string().email().required()
+        })),
+        publishedDate: Joi.date().required(),
+        price: Joi.number().required(),
+        tags: Joi.array().items((Joi.string()).required())
+    });
+
+    const result = Joi.valid(ctx.request.body, schema);
+
+    if (result.error) {
+        ctx.status = 400;
+        ctx.body = result.error;
+        return;
+    }
+
     ctx.body = 'replaced';
 }
 
